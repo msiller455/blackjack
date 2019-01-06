@@ -1,0 +1,50 @@
+//FLOW
+
+//step 1
+//define constants (values that dont change)
+const deckCards = []
+ 
+//looking up certain values
+
+
+//step 2
+//define state variables
+
+
+//information we have to track while app is running
+//declare variables but dont assign.
+//write function to initialize variables
+
+
+//step 3
+//what elements have to be accessed
+//more than once
+//remember to cache (remember that variable)
+
+//step 4
+//add event listeners (DOM)
+//use delgated event listeners
+//event delagation (bubble up approach)
+
+
+//step 5
+//invoke init function all state variables
+//lives outside of all code (global)
+//may be call to the render function inside the init
+
+
+//step 6
+//invoke render function
+//responisble for transferring all
+//state variables to the DOM
+
+
+//step 7//
+//replay or reset
+//recall init function
+
+
+//step 8
+//what state needs to be recalculated
+//update all variables user clicked
+//update state and then call render
