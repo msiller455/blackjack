@@ -12,17 +12,29 @@
 </head>
 <body>
     <header>
-        <h1>WDI LA Blackjack</h1>
+        <h1>Blackjack</h1>
     </header>
-    
-    <section id="dealerHand"></section>
-
-    <section id="playerHand"></section>
 
     <section id="bank">
-        <label for="bet">Place your bet: </label>
-        <input type="text" id="bet" size="6">
-        <button id="betSbmt">Submit</button>
+        <p>Current Bank: $<span id="bankroll"></span></p>
+        <p id="currentBet"></p>
+        <div id="chips">
+            <input type="submit" value="$1">
+            <input type="submit" value="$5">
+            <input type="submit" value="$10">
+            <input type="submit" value="$20">
+            <input type="submit" value="$50">
+            <input type="submit" value="$100">
+        </div>
+        <button id="placeBet">Place Bet</button>
+    </section>
+
+    <section id="dealerHand"></section>
+    <section id="playerHand"></section>
+    <section id="messageBox"></section>
+    <section id="hit-stay-btns">
+        <button class="hitStayBtn" id="hit">Hit</button>
+        <button class="hitStayBtn" id="stay">Stay</button>
     </section>
 
 
