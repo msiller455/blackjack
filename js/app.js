@@ -8,9 +8,8 @@ const winningMsgs = {
     'T': "It's a Tie"
 };
 
-
 //Variables
-let shuffledDeck, bankroll, bet, playerHand, playerScore, dealerHand, dealerScore, choice, winner;
+let shuffledDeck, bankroll, bet, playerHand, playerScore, dealerHand, dealerScore, winner, currentBet;
 
 //Beginning Game Initialization
 function init() {
@@ -22,23 +21,27 @@ function init() {
     render();
 }
 
+//Deal first two cards
 function dealCards() {
     winner = null;
     playerHand = [];
     dealerHand = [];
+    playerScore = computeHand(playerHand);
+    dealerScore = computeHand(dealerHand);
     shuffleDeck();
     for(let i = 0; i  < 2; i++) {
         playerHand.push(shuffledDeck.shift());
         dealerHand.push(shuffledDeck.shift());
     }
-    playerScore = computeHand(playerHand);
-    dealerScore = computeHand(dealerHand);
     if (playerScore === 21 && dealerScore === 21) {
         winner = 'T';
+        payOut();
     } else if (playerScore === 21) {
         winner = 'PB';
+        payOut();
     } else if (dealerScore === 21) {
         winner = 'DB';
+        payOut();
     }
     render();
 }
@@ -69,19 +72,25 @@ function render() {
         let cardInHand = `<div class="card ${index === 1 && !winner ? 'back' : card.face}"></div>`;
         $('#dealerHand').append(cardInHand);
     });
+    //Stages of play Rendering
     if (winner) {
         $('#messageBox').html(winningMsgs[winner]);
     } else if (!winner && playerHand.length) {
         $('#messageBox').html(`Player has ${computeHand(playerHand)}`);
     } else {
         $('#messageBox').html('Place your Bet');
+        if(currentBet > bankroll) {
+            $('#messageBox').html('Max Bet');
+        }
     }
+    //Button Visibility/Functionality Switches
     !winner && playerHand.length ? $('#hit-stay-btns').show() : $('#hit-stay-btns').hide();
     !winner && playerHand.length || !bet ? $('#placeBet').hide() : $('#placeBet').show();
+    (winner === 'D' || winner === 'DB') && !bankroll && !bet ? $('#new-game-btn').show() : $('#new-game-btn').hide();
     $('#chips').css('pointer-events', !winner && playerHand.length ? 'none' : 'all');
+    //Bank Bet Display
     $('#bankroll').html(`${bankroll}`);
     $('#currentBet').html(`Current bet: $${bet}`)
-
 }
 
 //Calculate Hand score
@@ -99,16 +108,17 @@ function computeHand(hand) {
     return score;
 }
 
+//Hit Card
 function hitCard() {
     playerHand.push(shuffledDeck.shift());
     if(computeHand(playerHand) > 21) {
         winner = 'D';
-    } else if (computeHand(playerHand) === 21) {
-        winner = 'PB';
-    }
+        payOut();
+    } 
     render();
 }
 
+//Stay hand
 function stay() {
     while(computeHand(dealerHand) < 17 && !winner) {
         dealerHand.push(shuffledDeck.shift());
@@ -117,16 +127,32 @@ function stay() {
     dealerScore = computeHand(dealerHand);
     if (dealerScore > 21) {
         winner = 'P';
-    } else if (dealerScore === 21) {
-        winnner = 'DB';
+        payOut();
     } else if (playerScore === dealerScore) {
         winner = 'T';
+        payOut();
     } else if (playerScore > dealerScore) {
         winner = 'P';
+        payOut();
     } else {
         winner = 'D';
+        payOut();
     }
     render();
+}
+
+//Payout
+function payOut() {
+    if (winner === 'P') {
+        bankroll += 2 * bet;
+    } else if (winner === 'PB') {
+        bankroll += bet + (bet * 1.5);
+    } else if (winner === 'PB') {
+        bankroll += 2 * bet;
+    } else if (winner === 'T') {
+        bankroll += bet;
+    }
+    bet = 0;
 }
 
 
@@ -134,8 +160,11 @@ init();
 
 //Event Listeners
 $('#chips').on('click', 'input', (e) => {
-    bet += parseInt(($(e.target).val()).substring(1));
-    bankroll -= parseInt(($(e.target).val()).substring(1));
+    currentBet = parseInt(($(e.target).val()).substring(1))
+    if(currentBet <= bankroll) {
+        bet += currentBet;
+        bankroll -= currentBet;
+    }
     render();
     $('#placeBet').show();
     $('#bank').on('click', 'button', (e) => {
@@ -143,13 +172,15 @@ $('#chips').on('click', 'input', (e) => {
     })
 });
 
-
-
 $('#hit-stay-btns').on('click', 'button', (e) => {
     if($(e.target).attr('id') === "hit") {
         hitCard();
     } else if($(e.target).attr('id') === "stay") {
         stay();
     }
+});
+
+$('#new-game-btn').on('click', 'button', (e) => {
+    if($(e.target).attr('id') === "new-game") init();
 });
 
