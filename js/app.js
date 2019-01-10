@@ -75,8 +75,10 @@ function render() {
     //Stages of play Rendering
     if (winner) {
         $('#messageBox').html(winningMsgs[winner]);
+        $('#dealer-display').html(`Dealer has ${computeHand(dealerHand)}`)
     } else if (!winner && playerHand.length) {
         $('#messageBox').html(`Player has ${computeHand(playerHand)}`);
+        $('#dealer-display').html(`Dealer is showing ${dealerHand[0].value}`);
     } else {
         $('#messageBox').html('Place your Bet');
         if(currentBet > bankroll) {
@@ -85,12 +87,12 @@ function render() {
     }
     //Button Visibility/Functionality Switches
     !winner && playerHand.length ? $('#hit-stay-btns').show() : $('#hit-stay-btns').hide();
-    !winner && playerHand.length || !bet ? $('#placeBet').hide() : $('#placeBet').show();
+    !winner && playerHand.length || !bet ? $('#place-bet').hide() : $('#place-bet').show();
     (winner === 'D' || winner === 'DB') && !bankroll && !bet ? $('#new-game-btn').show() : $('#new-game-btn').hide();
     $('#chips').css('pointer-events', !winner && playerHand.length ? 'none' : 'all');
     //Bank Bet Display
     $('#bankroll').html(`${bankroll}`);
-    $('#currentBet').html(`Current bet: $${bet}`)
+    $('#current-bet').html(`Current bet: $${bet}`)
 }
 
 //Calculate Hand score
@@ -166,7 +168,7 @@ $('#chips').on('click', 'input', (e) => {
         bankroll -= currentBet;
     }
     render();
-    $('#placeBet').show();
+    $('#place-bet').show();
     $('#bank').on('click', 'button', (e) => {
         dealCards();
     })
@@ -183,4 +185,3 @@ $('#hit-stay-btns').on('click', 'button', (e) => {
 $('#new-game-btn').on('click', 'button', (e) => {
     if($(e.target).attr('id') === "new-game") init();
 });
-

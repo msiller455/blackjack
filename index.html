@@ -17,7 +17,7 @@
 
     <section id="bank">
         <p>Current Bank: $<span id="bankroll"></span></p>
-        <p id="currentBet"></p>
+        <p id="current-bet"></p>
         <div id="chips">
             <input type="submit" value="$1">
             <input type="submit" value="$5">
@@ -26,20 +26,28 @@
             <input type="submit" value="$50">
             <input type="submit" value="$100">
         </div>
-        <button id="placeBet">Place Bet</button>
+        <button id="place-bet">Place Bet</button>
     </section>
-
-    <section id="dealerHand"></section>
-    <section id="playerHand"></section>
-    <section id="messageBox"></section>
-    <section id="hit-stay-btns">
-        <button id="hit">Hit</button>
-        <button id="stay">Stay</button>
-    </section>
-    <section id="new-game-prompt"></section>
-    <section id="new-game-btn">
-        <button id="new-game">New Game</button>
-    </section>
+    <div id="game-display">
+        <div id="top-display">
+            <section id="dealerHand"></section>
+            <section id="dealer-display"></section>
+        </div>
+        <div id="center-display">
+            <section id="messageBox"></section>
+            <section id="new-game-prompt"></section>
+            <section id="new-game-btn">
+                <button id="new-game">New Game</button>
+            </section>
+        </div>
+        <div id="bottom-display">
+            <section id="playerHand"></section>
+            <section id="hit-stay-btns">
+                <button id="hit">Hit</button>
+                <button id="stay">Stay</button>
+            </section>
+        </div>
+    </div>
 </section>
 
 
