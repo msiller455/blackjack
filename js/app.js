@@ -8,6 +8,14 @@ const winningMsgs = {
     'T': "It's a Tie"
 };
 
+const audio = {
+    ambience: new Audio('resources/audio/ambience_casino-stephan_schutze-1391090820.mp3'),
+    shuffle: new Audio('resources/audio/cards_shuffling-soundbible.com-565963092.mp3'),
+    chips: new Audio('resources/audio/poker-chips-daniel_simon.mp3'),
+    applause: new Audio('resources/audio/small_crowd_applause-yannick_lemieux-1268806408.mp3'),
+    boo: new Audio('resources/audio/Crowd Boo 1-SoundBible.com-437793776.mp3')
+}
+
 //Variables
 let shuffledDeck, bankroll, bet, playerHand, playerScore, dealerHand, dealerScore, winner, currentBet;
 
@@ -26,23 +34,25 @@ function dealCards() {
     winner = null;
     playerHand = [];
     dealerHand = [];
-    playerScore = computeHand(playerHand);
-    dealerScore = computeHand(dealerHand);
     shuffleDeck();
     for(let i = 0; i  < 2; i++) {
         playerHand.push(shuffledDeck.shift());
         dealerHand.push(shuffledDeck.shift());
     }
+    playerScore = computeHand(playerHand);
+    dealerScore = computeHand(dealerHand);
     if (playerScore === 21 && dealerScore === 21) {
         winner = 'T';
         payOut();
     } else if (playerScore === 21) {
         winner = 'PB';
         payOut();
+        audio.applause.play();
     } else if (dealerScore === 21) {
         winner = 'DB';
-        payOut();
+        audio.boo.play();
     }
+    audio.shuffle.play();
     render();
 }
 
@@ -56,7 +66,6 @@ function shuffleDeck() {
         shuffledDeck[randomIndex] = shuffledDeck[i];
         shuffledDeck[i] = itemAtIndex;
     }
-    return shuffledDeck;
 }
 
 //Render Function
@@ -76,9 +85,13 @@ function render() {
     if (winner) {
         $('#messageBox').html(winningMsgs[winner]);
         $('#dealer-display').html(`Dealer has ${computeHand(dealerHand)}`)
+            if(currentBet > bankroll) {
+                $('#messageBox').html(`${winningMsgs[winner]}<br>Max Bet!`);
+            }
     } else if (!winner && playerHand.length) {
-        $('#messageBox').html(`Player has ${computeHand(playerHand)}`);
+        $('#player-display').html(`Player has ${computeHand(playerHand)}`);
         $('#dealer-display').html(`Dealer is showing ${dealerHand[0].value}`);
+        $('#messageBox').html(`Hit or stay?`);
     } else {
         $('#messageBox').html('Place your Bet');
         if(currentBet > bankroll) {
@@ -115,6 +128,7 @@ function hitCard() {
     playerHand.push(shuffledDeck.shift());
     if(computeHand(playerHand) > 21) {
         winner = 'D';
+        audio.boo.play();
         payOut();
     } 
     render();
@@ -129,17 +143,17 @@ function stay() {
     dealerScore = computeHand(dealerHand);
     if (dealerScore > 21) {
         winner = 'P';
-        payOut();
+        audio.applause.play();
     } else if (playerScore === dealerScore) {
         winner = 'T';
-        payOut();
     } else if (playerScore > dealerScore) {
         winner = 'P';
-        payOut();
+        audio.applause.play();
     } else {
         winner = 'D';
-        payOut();
+        audio.boo.play();
     }
+    payOut();
     render();
 }
 
@@ -149,8 +163,6 @@ function payOut() {
         bankroll += 2 * bet;
     } else if (winner === 'PB') {
         bankroll += bet + (bet * 1.5);
-    } else if (winner === 'PB') {
-        bankroll += 2 * bet;
     } else if (winner === 'T') {
         bankroll += bet;
     }
@@ -162,6 +174,7 @@ init();
 
 //Event Listeners
 $('#chips').on('click', 'input', (e) => {
+    audio.chips.play();
     currentBet = parseInt(($(e.target).val()).substring(1))
     if(currentBet <= bankroll) {
         bet += currentBet;
@@ -169,9 +182,11 @@ $('#chips').on('click', 'input', (e) => {
     }
     render();
     $('#place-bet').show();
-    $('#bank').on('click', 'button', (e) => {
-        dealCards();
-    })
+});
+
+$('#bank').on('click', 'button', (e) => {
+    if (!bet) return;
+    dealCards();
 });
 
 $('#hit-stay-btns').on('click', 'button', (e) => {
