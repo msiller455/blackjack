@@ -37,7 +37,7 @@ h1 {
 }
 
 
-#dealerHand {
+#dealer-hand {
     margin: 15px;
 }
 
@@ -45,7 +45,7 @@ h1 {
     text-align: center;
 }
 
-#playerHand {
+#player-hand {
     bottom: 0;
     margin: 15px;
     text-align: center;
@@ -136,6 +136,6 @@ div.card {
     font-size: 20px;
 }
 
-#messageBox {
+#message-box {
     text-align: center;
 }

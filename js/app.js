@@ -71,32 +71,32 @@ function shuffleDeck() {
 //Render Function
 function render() {
     //Card Render
-    $('#dealerHand').html("");
-    $('#playerHand').html("");
+    $('#dealer-hand').html("");
+    $('#player-hand').html("");
     playerHand.forEach((card) => {
         let cardInHand = `<div class="card ${card.face}"></div>`;
-        $('#playerHand').append(cardInHand);
+        $('#player-hand').append(cardInHand);
     });
     dealerHand.forEach((card, index) => {
         let cardInHand = `<div class="card ${index === 1 && !winner ? 'back' : card.face}"></div>`;
-        $('#dealerHand').append(cardInHand);
+        $('#dealer-hand').append(cardInHand);
     });
     //Stages of play Rendering
     if (winner) {
-        $('#messageBox').html(winningMsgs[winner]);
+        $('#message-box').html(winningMsgs[winner]);
         $('#player-display').html(`Player has ${computeHand(playerHand)}`);
-        $('#dealer-display').html(`Dealer has ${computeHand(dealerHand)}`)
-            if(currentBet > bankroll) {
-                $('#messageBox').html(`${winningMsgs[winner]}<br>Max Bet!`);
-            }
+        $('#dealer-display').html(`Dealer has ${computeHand(dealerHand)}`);
+        if(currentBet > bankroll) {
+            $('#message-box').html(`${winningMsgs[winner]}<br>Max Bet!`);
+        }
     } else if (!winner && playerHand.length) {
         $('#player-display').html(`Player has ${computeHand(playerHand)}`);
         $('#dealer-display').html(`Dealer is showing ${dealerHand[0].value}`);
-        $('#messageBox').html(`Hit or stay?`);
+        $('#message-box').html(`Hit or stay?`);
     } else {
-        $('#messageBox').html('Place your Bet');
+        $('#message-box').html('Place your Bet');
         if(currentBet > bankroll) {
-            $('#messageBox').html('Max Bet');
+            $('#message-box').html('Max Bet');
         }
     }
     //Button Visibility/Functionality Switches

@@ -21,7 +21,7 @@ This program utilizes the following technologies to structure and style the webp
 
 ## Screenshots
 
-![StartScreenShot](resources/images/StartScreenShot.png)
+![StartScreenShot](resources/images/NewStart.png)
 ![Screenshot](resources/images/Blackjack-Screenshot.png)
 
 
