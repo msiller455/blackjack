@@ -18,13 +18,33 @@
     <section id="bank">
         <p>Current Bank: $<span id="bankroll"></span></p>
         <p id="current-bet"></p>
+        <div id="values">
+        </div>
         <div id="chips">
-            <input type="submit" value="$1">
-            <input type="submit" value="$5">
-            <input type="submit" value="$10">
-            <input type="submit" value="$20">
-            <input type="submit" value="$50">
-            <input type="submit" value="$100">
+            <div id="$1-chip">
+                <p>$1</p>
+                <img src="resources/images/cloverChip.svg" data-value="1">
+            </div>
+            <div id="$5-chip">
+                <p>$5</p>
+                <img src="resources/images/clubChip.svg" data-value="5">
+            </div>
+            <div id="$10-chip">
+                <p>$10</p>
+                <img src="resources/images/diamondChip.svg" data-value="10">
+            </div>
+            <div id="$20-chip">
+                <p>$20</p>
+                <img src="resources/images/heartChip.svg" data-value="20">
+            </div>
+            <div id="$50-chip">
+                <p>$50</p>
+                <img src="resources/images/spadeChip.svg" data-value="50">
+            </div>
+            <div id="$100-chip">
+                <p>$100</p>
+                <img src="resources/images/gambler-casino-svgrepo-com.svg" data-value="100">
+            </div>
         </div>
         <button id="place-bet">Place Bet</button>
     </section>

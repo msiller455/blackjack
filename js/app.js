@@ -173,9 +173,9 @@ function payOut() {
 init();
 
 //Event Listeners
-$('#chips').on('click', 'input', (e) => {
+$('#chips').on('click', 'img', (e) => {
     audio.chips.play();
-    currentBet = parseInt(($(e.target).val()).substring(1))
+    currentBet = parseInt(($(e.target).attr('data-value')));
     if(currentBet <= bankroll) {
         bet += currentBet;
         bankroll -= currentBet;

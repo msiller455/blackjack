@@ -65,18 +65,21 @@ h1 {
     align-items: center;
 }
 
-#chips input[type=submit] {
-    margin-top: 10px;
-    border: solid black 2px;
-    width: 40px;
-    font-family: 'Unica One', cursive;
-    font-size: 16px;
-    font-weight: 600;
+#chips {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-#chips input[type=submit]:hover {
+#chips img {
+    height: 20px;
+    width: 20px;
+    margin: 5px;
+}
+
+#chips img:hover {
     color: white;
-    background: black;
+    border: solid black 1px;
 }
 
 #hit-stay-btns button {
