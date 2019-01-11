@@ -84,6 +84,7 @@ function render() {
     //Stages of play Rendering
     if (winner) {
         $('#messageBox').html(winningMsgs[winner]);
+        $('#player-display').html(`Player has ${computeHand(playerHand)}`);
         $('#dealer-display').html(`Dealer has ${computeHand(dealerHand)}`)
             if(currentBet > bankroll) {
                 $('#messageBox').html(`${winningMsgs[winner]}<br>Max Bet!`);
